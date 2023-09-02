@@ -13,3 +13,6 @@ Timestamp: Tue Aug 29 2023 17:04:03 GMT+0200 (за центральноєвро�
 URL: /
 Timestamp: Fri Sep 01 2023 15:26:15 GMT+0200 (за центральноєвропейським літнім часом)
 
+::1 - - [02/Sep/2023:12:37:07 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [02/Sep/2023:12:37:15 +0000] "GET /movies HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [02/Sep/2023:12:37:27 +0000] "GET /documentation HTTP/1.1" 404 152 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"

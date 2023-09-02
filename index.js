@@ -1,5 +1,5 @@
 // const url = require('url');
-// const fs = require('fs');
+
 // const http = require('http');
 
 // let server = http.createServer((request, response) => {
@@ -24,12 +24,60 @@ const HOST = 'localhost'
 //     console.log(`http://${HOST}:${PORT}`)
 // })
 
-let express = require('express')
-let app = express()
+const express = require('express')
+const app = express()
 app.use(express.static('public'))
-let morgan = require('morgan')
+const morgan = require('morgan')
+const fs = require('fs')
+const path = require('path')
 
-app.use(morgan('common'))
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
+// app.use(morgan('common'))
+app.use(morgan("combined", { stream: accessLogStream }));
+
+let topMovies = [
+  {
+    title: 'Forrest Gump',
+    year: 1994
+  },
+  {
+    title: 'Léon',
+    year: 1994
+  },
+  {
+    title: 'Dunkirk',
+    year: 2017
+  },
+  {
+    title: 'The Boy in the Striped Pajamas',
+    year: 2008
+  },
+  {
+    title: 'Split',
+    year: 2016
+  },
+  {
+    title: 'Three Billboards Outside Ebbing, Missouri',
+    year: 2017
+  },
+  {
+    title: 'Promising Young Woman',
+    year: 2020
+  },
+  {
+    title: 'Inception',
+    year: 2010
+  },
+  {
+    title: 'Demolition',
+    year: 2015
+  },
+  {
+    title: 'Palmer',
+    year: 2021
+  }
+]
 
 app.get('/movies', (req, res) => {
   res.json(topMovies)
