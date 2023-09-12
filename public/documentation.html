@@ -56,19 +56,24 @@
                     <td>A JSON object holding data about a single movie, containing description, genre, director, image
                         URL, whether it’s featured or not. Example:
                         <code>
-                    {"title": "Split",
-                    "description": "The film follows a man with dissociative identity disorder who kidnaps...",
-                    "genre": {
-                        "name": "thriller",
-                        "description": "This film is a ..."
-                    },
-                    "director": {
-                        "name": "M. Night Shyamalan",
-                        "bio": "Shyamalan was born in Mahé, India...",
-                        "birth": 1970
-                    },
-                    "imageURL": "https://www.google.com...",
-                    "featured": false}
+                            { 
+                            "genre": {
+                                "name": "Historical drama",
+                                "description": "The historical drama..."
+                            },
+                            "director": {
+                                "name": "Christopher Nolan",
+                                "bio": "Christopher Nolan is...",
+                                "birth": "1970",
+                                "death": ""
+                            },
+                            "actors": [],
+                            "_id": "64faff05e32932f5a23ea847",
+                            "title": "Dunkirk",
+                            "description": "Allied soldiers from Belgium, the British Commonwealth...",
+                            "image": "https://www.google.com/...",
+                            "featured": true
+                        }
                 </code>
                     </td>
                 </tr>
@@ -93,13 +98,21 @@
                     <td>none</td>
                     <td>A JSON object holding data about a director of each movie. Example:
                         <code>
-                          "director":  {  
-                            "name": "Luc Besson",
-                            "bio": "Besson was born in Paris...",
-                            "birth": 1959"
-                        }
+                            {
+                                "name": "Antoine Fuqua",
+                                "bio": "Antoine Fuqua is ...",
+                                "birth": "1965",
+                                "death": ""
+                            }
                     </code>
                     </td>
+                </tr>
+                <tr>
+                    <td>Get all users</td>
+                    <td>/users</td>
+                    <td>GET</td>
+                    <td>none</td>
+                    <td>A JSON object holding data about all movies</td>
                 </tr>
                 <tr>
                     <td>Create a new user</td>
@@ -108,8 +121,10 @@
                     <td>A JSON object holding data about a user to add, structured like:
                         <code>
                             {
-                                "name": "Rita",
-                                "favoriteMovies": []
+                                "name": "Anjelina Jolie",
+                                "password": "rrrrr",
+                                "email": "anjelka@gmail.com",
+                                "birthday": "01/01/1999"
                             }
                         </code>
                     </td>
@@ -117,56 +132,86 @@
 
                         <code>
                             {
-                               "name": "Rita",
-                               "favoriteMovies": [],
-                               "id": "54629442-cdea-4dbe-8f5a-2a3fa3fc9325"
-                             }
+                                "name": "Anjelina Jolie",
+                                "password": "rrrrr",
+                                "email": "anjelka@gmail.com",
+                                "birthday": "1998-12-31T23:00:00.000Z",
+                                "favoriteMovies": [],
+                                "_id": "6500966796de468c0e3a64a8",
+                                "__v": 0
+                            }
                     </code>
                     </td>
                 </tr>
                 <tr>
-                    <td>Remove a user by ID</td>
-                    <td>/users/[id]</td>
+                    <td>Remove a user by Name</td>
+                    <td>/users/[name]</td>
                     <td>DELETE</td>
                     <td>none</td>
                     <td>A text message indicating whether a user was successfully removed.</td>
                 </tr>
                 <tr>
-                    <td>Update a user's info (name)</td>
-                    <td>/users/[id]</td>
+                    <td>Update a user's info (password)</td>
+                    <td>/users/[name]</td>
                     <td>PUT</td>
                     <td>A JSON object holding user's data that must be updated:
                         <code>
                             {
-                                "name": "Iryna"
+                                "password": "12345"
                             }
                         </code>
                     </td>
                     <td>A JSON object holding data about a user that was updated:
                         <code>
                             {
-                                "id": 1,
-                                "name": "Iryna",
-                                "favoriteMovies": [
-                                    "Leon"
-                                ]
+                                "_id": "6500966796de468c0e3a64a8",
+                                "name": "Anjelina Jolie",
+                                "password": "12345",
+                                "email": "anjelka@gmail.com",
+                                "birthday": "1998-12-31T23:00:00.000Z",
+                                "favoriteMovies": [],
+                                "__v": 0
                             }
                     </code>
                     </td>
                 </tr>
                 <tr>
                     <td>Add a movie to user favorite list</td>
-                    <td>/users/[id]/[movieTitle]</td>
-                    <td>PUT</td>
+                    <td>/users/:[username]/movies/:[movieID]</td>
+                    <td>POST</td>
                     <td>none</td>
-                    <td>A text message indicating whether a movie was successfully added.</td>
+                    <td>A JSON object holding user's data:
+                        <code>
+                            {
+                                "_id": "6500966796de468c0e3a64a8",
+                                "name": "Anjelina Jolie",
+                                "password": "12345",
+                                "email": "anjelka@gmail.com",
+                                "birthday": "1998-12-31T23:00:00.000Z",
+                                "favoriteMovies": [
+                                    "64fb03bae32932f5a23ea84b"
+                                ],
+                                "__v": 0
+                            }
+                        </code>
+                    </td>
                 </tr>
                 <tr>
                     <td>Remove a movie from user favorite list</td>
-                    <td>/users/[id]/[movieTitle]</td>
+                    <td>/users/:[username]/movies/:[movieID]</td>
                     <td>DELETE</td>
                     <td>none</td>
-                    <td>A text message indicating whether a movie was successfully removed.</td>
+                    <td>A JSON object holding user's data:
+                        <code>{
+                            "_id": "6500966796de468c0e3a64a8",
+                            "name": "Anjelina Jolie",
+                            "password": "12345",
+                            "email": "anjelka@gmail.com",
+                            "birthday": "1998-12-31T23:00:00.000Z",
+                            "favoriteMovies": [],
+                            "__v": 0
+                        }</code>
+                    </td>
                 </tr>
  
             </tbody>
