@@ -98,7 +98,7 @@ movies.findOne({'director.name': req.params.name})
 app.post("/users",[
   check('name', 'Username is required').isLength({min: 5}),
   check('name', 'Username contains non alphanumric characters - not allowed.').isAlphanumeric(),
-  chec('password', 'Password is required').not().isEmpty(),
+  check('password', 'Password is required').not().isEmpty(),
   check('email', 'Email does not appear to be vaild').isEmail()
 ], (req, res) => {
   let errors = validationResult(req)
