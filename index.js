@@ -17,8 +17,8 @@ const { check, validationResult } = require('express-validator');
 
 const movies = Models.movie;
 const users = Models.user;
-// mongoose.connect('mongodb://127.0.0.1:27017/cfDB', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://127.0.0.1:27017/cfDB', {useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 app.use(bodyParser.json());
 
 app.use(express.json());
