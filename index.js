@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}))
-app.use(morgan('common'))
+// app.use(morgan('common'))
 
 
 app.use(cors())
@@ -33,6 +33,8 @@ require('./passport')
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
+
+app.use(morgan("combined", { stream: accessLogStream }));
 
 // app.use(morgan("combined", { stream: accessLogStream }));
 
@@ -104,13 +106,13 @@ app.post("/users",[
   check('name', 'Username contains non alphanumric characters - not allowed.').isAlphanumeric(),
   check('password', 'Password is required').not().isEmpty(),
   check('email', 'Email does not appear to be vaild').isEmail()
-], (req, res) => {
+], async (req, res) => {
   let errors = validationResult(req)
   if(!errors.isEmpty()){
     return res.status(422).json({errors: errors.array()})
   }
   let hashPassword = users.hashPassword(req.body.password);
-  users.findOne({name: req.body.name})
+  await users.findOne({name: req.body.name})
   .then((user) => {
     if (user){
       return res.status(400).send(req.body.name + ' already exists')
