@@ -119,7 +119,7 @@ app.post("/users",[
     } else {
       users.create({
         name: req.body.name,
-        password: req.body.password,
+        password: hashPassword,
         email: req.body.email,
         birthday: req.body.birthday
       }).then((user) => {
