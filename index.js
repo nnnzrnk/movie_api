@@ -198,13 +198,14 @@ app.delete("/users/:name/movies/:movieID", passport.authenticate('jwt', {session
 });
 
 
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 // const HOST = "localhost";
 
 // app.listen(PORT, '0.0.0.0', () => {
 //   console.log(`http://${HOST}:${PORT}`);
 // });
 
-app.listen(PORT, "0.0.0.0", () => {
-	console.log("listening on port" + PORT);
+app.listen(port, "0.0.0.0", () => {
+	console.log("listening on port" + port);
 });
+
