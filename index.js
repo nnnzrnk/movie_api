@@ -13,18 +13,21 @@ const mongoose = require('mongoose');
 const Models = require('./models');
 const { error } = require("console");
 const { check, validationResult } = require('express-validator'); 
+const cors = require('cors');
 
 
 const movies = Models.movie;
 const users = Models.user;
 // mongoose.connect('mongodb://127.0.0.1:27017/cfDB', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+
+MongoClient.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.json());
 
-app.use(express.json());
+app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}))
+app.use(morgan('common'))
 
-const cors = require('cors')
+
 app.use(cors())
 let auth = require('./auth')(app)
 const passport = require('passport')
@@ -33,12 +36,16 @@ require('./passport')
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
   flags: "a",
 });
-app.use(morgan('common'))
+
 // app.use(morgan("combined", { stream: accessLogStream }));
 
+app.get('/', (req, res) => {
+  res.send('Welcome to my movie app!')
+})
+
 app.get("/movies", passport.authenticate('jwt', {session: false}),
-async (req, res) => {
- await movies.find().then((movies) => {
+(req, res) => {
+    movies.find().then((movies) => {
     res.status(200).json(movies);
   })
   .catch((err) => {
