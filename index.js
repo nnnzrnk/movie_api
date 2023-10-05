@@ -26,6 +26,7 @@ app.use(express.urlencoded({extended: true}))
 
 
 app.use(cors())
+
 let auth = require('./auth')(app)
 const passport = require('passport')
 require('./passport')
@@ -43,7 +44,7 @@ app.get('/', (req, res) => {
 })
 
 app.get("/movies", 
-// passport.authenticate('jwt', {session: false}),
+passport.authenticate('jwt', {session: false}),
 (req, res) => {
     movies.find().then((movies) => {
     res.status(200).json(movies);
