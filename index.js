@@ -160,17 +160,25 @@ app.put("/users/:name", passport.authenticate('jwt', {session: false}),
 
 
 //update movies info by title (test)
-app.put("/movies/:title"),
-(req, res) => {
-  movies.findOneAndUpdate(
-    {title: req.params.title},
-    {$set: {
-      title: req.body.title,
-      description: req.body.description,
-      image: req.body.image
+app.patch('/movies/:title'), 
+  (req, res) => {
+  let updateObj = {};
+  if (req.body.title !== undefined) updateObj.title = req.body.title;
+  if (req.body.description !== undefined) updateObj.description = req.body.description;
+  if (req.body.image !== undefined) updateObj.image = req.body.image;
+  movies.findOneAndUpdate({ title: req.params.title }, { $set: updateObj },
+  { new: true }, // This line makes sure that the updated document is returned
+  (err, updatedInfo) => {
+    if(err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    } else {
+      res.json(updatedInfo);
     }
-  })
-}
+  });
+};
+
+
 
 
 //delete user by name
