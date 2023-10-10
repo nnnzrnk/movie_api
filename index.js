@@ -160,13 +160,13 @@ app.put("/users/:name", passport.authenticate('jwt', {session: false}),
 
 
 //update movies info by title (test)
-app.put("/movies/:title"),
+app.put("/movies/:movieID"),
 (req, res) => {
-  if (req.params.title !== req.params.title) {
+  if (req.params.movieID !== req.params.movieID) {
     return res.status(400).send('Permission denied')
   }
   movies.findOneAndUpdate(
-    {title: req.params.title},
+    {movieID: req.params.movieID},
     {$set: {
       title: req.body.title,
       description: req.body.description,
