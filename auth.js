@@ -22,7 +22,7 @@ module.exports = (router) => {
             }
         req.login(user, {session: false}, (error) => {
             if (error){
-                res.dend(error)
+                res.send(error)
             }
             let token = generateJWTToken(user.toJSON())
             return res.json({user, token})
