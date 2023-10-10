@@ -159,25 +159,60 @@ app.put("/users/:name", passport.authenticate('jwt', {session: false}),
 });
 
 
-//update movies info by title (test)
-app.patch('/movies/:title'), 
-  (req, res) => {
-  let updateObj = {};
-  if (req.body.title !== undefined) updateObj.title = req.body.title;
-  if (req.body.description !== undefined) updateObj.description = req.body.description;
-  if (req.body.image !== undefined) updateObj.image = req.body.image;
-  movies.findOneAndUpdate({ title: req.params.title }, { $set: updateObj },
-  { new: true }, // This line makes sure that the updated document is returned
-  (err, updatedInfo) => {
-    if(err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    } else {
-      res.json(updatedInfo);
-    }
-  });
-};
+//update movies info by title 
+app.patch("/movies/:title", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    let updateObj = {};
+    if (req.body.title !== undefined) updateObj.title = req.body.title;
+    if (req.body.description !== undefined) updateObj.description = req.body.description;
+    if (req.body.image !== undefined) updateObj.image = req.body.image;
 
+    try {
+      const updatedMovie = await movies.findOneAndUpdate(
+        { title: req.params.title },
+        { $set: updateObj },
+        { new: true } // This option ensures that the updated document is returned
+      );
+
+      if (!updatedMovie) {
+        return res.status(404).send("Movie not found");
+      }
+
+      res.json(updatedMovie);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    }
+  }
+);
+
+
+//add new movie
+app.post("/movies", passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      const movie = await movies.findOne({ title: req.body.title });
+      if (movie) {
+        return res.status(400).send(req.body.title + "already exists");
+      } else {
+        const newMovie = await movies.create({
+          title: req.body.title,
+          description: req.body.description,
+          genre: {
+            name: req.body.genre.name,
+            description: req.body.genre.description,
+          },
+          image: req.body.image,
+          featured: req.body.featured,
+        });
+        res.status(201).json(newMovie);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error" + error);
+    }
+  }
+);
 
 
 
