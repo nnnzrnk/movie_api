@@ -160,23 +160,17 @@ app.put("/users/:name", passport.authenticate('jwt', {session: false}),
 
 
 //update movies info by title (test)
-app.put("/movies/:title", passport.authenticate('jwt', {session: false}),
+app.put("/movies/:title"),
 (req, res) => {
-  if (req.params.title !== req.params.title) {
-    return res.status(400).send('Permission denied')
-  }
   movies.findOneAndUpdate(
     {title: req.params.title},
     {$set: {
       title: req.body.title,
       description: req.body.description,
       image: req.body.image
-    }},{new: true}).then((updatedInfo) => {
-      res.json(updatedInfo)}).catch((err) => {
-      console.error(err);
-      res.status(500).send('Error ' + err)
-    })
-});
+    }
+  })
+}
 
 
 //delete user by name
