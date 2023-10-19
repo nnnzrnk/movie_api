@@ -24,11 +24,24 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}))
 // app.use(morgan('common'))
 
-
-app.use(cors())
+let allowedOrigins = [
+  'https://myflixxx.netlify.app/',
+  'http://localhost:1234'
+]
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.indexOf(origin) === -1) {
+      let message = `The CORS policy for this application doesn't allow access from origin ` + origin
+      return callback(new Error(message), false)
+    }
+    return callback(null, true)
+  }
+}))
 
 let auth = require('./auth')(app)
-const passport = require('passport')
+const passport = require('passport');
+const { callbackify } = require("util");
 require('./passport')
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "log.txt"), {
