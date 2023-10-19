@@ -26,7 +26,9 @@ app.use(express.urlencoded({extended: true}))
 
 let allowedOrigins = [
   'https://myflixxx.netlify.app/',
-  'http://localhost:1234'
+  'http://localhost:1234',
+  'https://movie-api-da5i.onrender.com'
+
 ]
 app.use(cors({
   origin: (origin, callback) => {
