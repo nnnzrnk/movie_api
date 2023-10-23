@@ -25,10 +25,7 @@ app.use(express.urlencoded({extended: true}))
 // app.use(morgan('common'))
 
 let allowedOrigins = [
-  'https://myflixxx.netlify.app/',
-  'http://localhost:1234',
-  'https://movie-api-da5i.onrender.com'
-
+'*'
 ]
 app.use(cors({
   origin: (origin, callback) => {
@@ -66,7 +63,7 @@ passport.authenticate('jwt', {session: false}),
   })
   .catch((err) => {
     console.error(err);
-    res.status(500).send('Error: ' + err)
+    res.status(500).json({'Error: ': err})
   })
 });
 
