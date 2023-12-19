@@ -10,3 +10,4 @@ personal information, and create a list of their favorite movies
 * Postman
 * Render
 ### App is hosted on Render https://movie-api-da5i.onrender.com
+### Documentation? [Here!](https://movie-api-da5i.onrender.com/documentation.html)
